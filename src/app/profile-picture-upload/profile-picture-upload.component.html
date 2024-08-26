@@ -1,0 +1,57 @@
+<div class="upload-container">
+  <div class="card">
+    <span class="header">Profile Picture</span>
+
+    <div class="image">
+      <img
+        *ngIf="croppedImage"
+        [src]="croppedImage"
+        alt="Cropped Image"
+        class="uploaded-image"
+      />
+
+      <div *ngIf="!croppedImage" class="placeholder-text">
+        <img src="\assets\images\placeholder.svg" />
+      </div>
+    </div>
+
+    <div
+      class="upload-section"
+      (drop)="handleFileDrop($event)"
+      (dragover)="preventDefault($event)"
+      (dragenter)="preventDefault($event)"
+      (dragleave)="preventDefault($event)"
+    >
+      <label for="fileInput" class="upload-label"
+        ><img src="\assets\images\stroke.svg"
+      /></label>
+      <input
+        type="file"
+        id="fileInput"
+        (change)="fileChangeEvent($event)"
+        class="file-input"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="showCropper" class="modal">
+    <div class="modal-content">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [transform]="transform"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+
+      <div class="modal-actions">
+        <button class="button crop-button" (click)="confirmCrop()">Crop</button>
+        <button class="button cancel-button" (click)="cancelCrop()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
